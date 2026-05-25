@@ -1,0 +1,15 @@
+{
+  "name": "PESOLUTION: Lipa City Talent Engine",
+  "description": "A machine learning-based resume matching and skill gap analysis system for Lipa City, connecting OJT students and fresh graduates with local employers like LIMA Technology Center.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "OCR resume processing",
+    "NLP skill extraction",
+    "AI-powered job matching",
+    "Skill gap analysis & training recommendations",
+    "Multi-role dashboards (Applicant, Employer, PESO Admin)",
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

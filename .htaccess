@@ -1,0 +1,23 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /PESOL/
+
+  # PHP API
+  RewriteRule ^api/(.*)$ api/index.php?route=$1 [QSA,L]
+
+  # Setup script
+  RewriteRule ^setup\.php$ - [L]
+
+  # Serve built static assets from dist/
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{DOCUMENT_ROOT}/PESOL/dist/$1 -f
+  RewriteRule ^(.+)$ dist/$1 [L]
+
+  # SPA fallback — React app
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ dist/index.html [L]
+</IfModule>
+
+DirectoryIndex dist/index.html index.php index.html

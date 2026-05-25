@@ -1,0 +1,114 @@
+{
+  "entities": {
+    "Profile": {
+      "title": "Profile",
+      "description": "Base user profile information",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "full_name": { "type": "string" },
+        "role": { "type": "string", "enum": ["applicant", "employer", "admin"] },
+        "location": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "full_name", "role"]
+    },
+    "Applicant": {
+      "title": "Applicant",
+      "description": "Applicant specific details",
+      "type": "object",
+      "properties": {
+        "profileId": { "type": "string" },
+        "education": { "type": "string" },
+        "barangay": { "type": "string" },
+        "skills": { "type": "object" },
+        "experience": { "type": "array" },
+        "achievements": { "type": "array" },
+        "bio": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Employer": {
+      "title": "Employer",
+      "description": "Employer specific details",
+      "type": "object",
+      "properties": {
+        "profileId": { "type": "string" },
+        "company_name": { "type": "string" },
+        "industry": { "type": "string" },
+        "website": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "JobPosting": {
+      "title": "Job Posting",
+      "description": "Job posting details",
+      "type": "object",
+      "properties": {
+        "employerId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "requirements": { "type": "array" },
+        "skillPills": { "type": "array" },
+        "barangay": { "type": "string" },
+        "salary_range": { "type": "string" },
+        "employment_type": { "type": "string" },
+        "status": { "type": "string", "enum": ["open", "closed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Application": {
+      "title": "Application",
+      "description": "Job application tracking",
+      "type": "object",
+      "properties": {
+        "jobId": { "type": "string" },
+        "applicantId": { "type": "string" },
+        "employerId": { "type": "string" },
+        "status": { "type": "string", "enum": ["submitted", "reviewing", "shortlisted", "interviewed", "hired", "rejected"] },
+        "match_score": { "type": "number" },
+        "skill_gaps": { "type": "array" },
+        "feedback": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Bookmark": {
+      "title": "Bookmark",
+      "description": "User's saved job IDs",
+      "type": "object",
+      "properties": {
+        "jobIds": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  },
+  "firestore": {
+    "/profiles/{profileId}": {
+      "schema": "Profile",
+      "description": "Global user profiles"
+    },
+    "/applicants/{applicantId}": {
+      "schema": "Applicant",
+      "description": "Applicant specific records"
+    },
+    "/employers/{employerId}": {
+      "schema": "Employer",
+      "description": "Employer specific records"
+    },
+    "/job_postings/{jobId}": {
+      "schema": "JobPosting",
+      "description": "Job opportunities"
+    },
+    "/applications/{applicationId}": {
+      "schema": "Application",
+      "description": "Job applications and matching status"
+    },
+    "/bookmarks/{userId}": {
+      "schema": "Bookmark",
+      "description": "User's bookmarked job postings"
+    }
+  }
+}

@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+    function isVerified() { return isSignedIn() && request.auth.token.email_verified == true; }
+    function getUserRole() { return get(/databases/$(database)/documents/profiles/$(request.auth.uid)).data.role; }
+    function isAdmin() { return isSignedIn() && getUserRole() == 'admin'; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+
+    // Profiles Collection
+    match /profiles/{userId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && isOwner(userId);
+      allow delete: if false; // Profiles shouldn't be deleted by users usually
+    }
+
+    // Applicants Collection
+    match /applicants/{userId} {
+      allow read: if isSignedIn();
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) || isAdmin();
+    }
+
+    // Employers Collection
+    match /employers/{userId} {
+      allow read: if isSignedIn();
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) || isAdmin();
+    }
+
+    // Job Postings
+    match /job_postings/{jobId} {
+      allow read: if true; // Publicly viewable
+      allow create: if isSignedIn() && getUserRole() == 'employer';
+      allow update, delete: if isSignedIn() && (isOwner(resource.data.employerId) || isAdmin());
+    }
+
+    // Applications
+    match /applications/{applicationId} {
+      allow read: if isSignedIn() && (isOwner(resource.data.applicantId) || isOwner(resource.data.employerId) || isAdmin());
+      allow create: if isSignedIn() && getUserRole() == 'applicant';
+      allow update: if isSignedIn() && (isOwner(resource.data.applicantId) || isOwner(resource.data.employerId) || isAdmin());
+      allow delete: if isSignedIn() && (isOwner(resource.data.applicantId) || isAdmin());
+    }
+
+    // Bookmarks
+    match /bookmarks/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+  }
+}
