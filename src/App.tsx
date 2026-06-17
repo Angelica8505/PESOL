@@ -27,11 +27,17 @@ const AdminLogin = React.lazy(() => import('./pages/Admin/Login'));
 const AdminRegister = React.lazy(() => import('./pages/Admin/Register'));
 
 const ApplicantDashboard = React.lazy(() => import('./pages/Applicant/Dashboard'));
+const ApplicantLayout = React.lazy(() => import('./components/Layout/ApplicantLayout'));
 const JobSearch = React.lazy(() => import('./pages/Applicant/JobSearch'));
 const Forum = React.lazy(() => import('./pages/Applicant/Forum'));
 const ProfilePage = React.lazy(() => import('./pages/Applicant/Profile'));
 const SavedJobs = React.lazy(() => import('./pages/Applicant/SavedJobs'));
 const Applications = React.lazy(() => import('./pages/Applicant/Applications'));
+const ApplicantCareerPath = React.lazy(() => import('./pages/Applicant/CareerPath'));
+const ApplicantMessages = React.lazy(() => import('./pages/Applicant/Messages'));
+const ApplicantAIRoadmap = React.lazy(() => import('./pages/Applicant/AIRoadmap'));
+const ApplicantSettings = React.lazy(() => import('./pages/Applicant/Settings'));
+const ApplicantHelpCenter = React.lazy(() => import('./pages/Applicant/HelpCenter'));
 const EmployerDashboard = React.lazy(() => import('./pages/Employer/Dashboard'));
 const AdminDashboard = React.lazy(() => import('./pages/Admin/Dashboard'));
 
@@ -82,12 +88,19 @@ export default function App() {
                   <Route path="/admin/register" element={<AdminRegister />} />
                   
                   {/* Applicant Routes */}
-                  <Route path="/applicant" element={<ProtectedRoute role="applicant"><ApplicantDashboard /></ProtectedRoute>} />
-                  <Route path="/applicant/jobs" element={<ProtectedRoute role="applicant"><JobSearch /></ProtectedRoute>} />
-                  <Route path="/applicant/forum" element={<ProtectedRoute role="applicant"><Forum /></ProtectedRoute>} />
-                  <Route path="/applicant/profile" element={<ProtectedRoute role="applicant"><ProfilePage /></ProtectedRoute>} />
-                  <Route path="/applicant/bookmarks" element={<ProtectedRoute role="applicant"><SavedJobs /></ProtectedRoute>} />
-                  <Route path="/applicant/applications" element={<ProtectedRoute role="applicant"><Applications /></ProtectedRoute>} />
+                  <Route path="/applicant" element={<ProtectedRoute role="applicant"><ApplicantLayout /></ProtectedRoute>}>
+                    <Route index element={<ApplicantDashboard />} />
+                    <Route path="jobs" element={<JobSearch />} />
+                    <Route path="forum" element={<Forum />} />
+                    <Route path="profile" element={<ProfilePage />} />
+                    <Route path="bookmarks" element={<SavedJobs />} />
+                    <Route path="applications" element={<Applications />} />
+                    <Route path="career" element={<ApplicantCareerPath />} />
+                    <Route path="messages" element={<ApplicantMessages />} />
+                    <Route path="roadmap" element={<ApplicantAIRoadmap />} />
+                    <Route path="settings" element={<ApplicantSettings />} />
+                    <Route path="help" element={<ApplicantHelpCenter />} />
+                  </Route>
   
                   {/* Employer Routes */}
                   <Route path="/employer" element={<ProtectedRoute role="employer"><EmployerDashboard /></ProtectedRoute>} />

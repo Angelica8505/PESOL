@@ -1,21 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", sans-serif;
-  
-  --color-brand: #2563eb;
-  --color-success: #059669;
-  --color-warning: #d97706;
-  --color-error: #e11d48;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --radius: 0.75rem;
+
+  --color-background: hsl(220 20% 97%);
+  --color-surface: hsl(0 0% 100%);
+  --color-border: hsl(220 16% 84%);
+  --color-primary: #1D4ED8;
+  --color-secondary: #0EA5E9;
+  --color-accent: #7C3AED;
+  --color-success: #10B981;
+  --color-error: #EF4444;
+  --color-foreground: #121212;
+  --color-muted: hsl(220 10% 60%);
 }
 
 @layer base {
   body {
-    @apply bg-[#f4f6fb] text-slate-900 font-sans transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100;
+    @apply bg-[var(--color-background)] text-[var(--color-foreground)] font-sans transition-colors duration-300;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -24,9 +31,24 @@
 }
 
 .glass {
-  @apply bg-white/10 backdrop-blur-md border border-white/20;
+  @apply rounded-[var(--radius)] bg-white/70 dark:bg-white/5 backdrop-blur-xl border border-white/20 shadow-lg;
 }
 
 .card-hover {
-  @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
+}
+
+@layer utilities {
+  .bg-card {
+    background-color: rgba(15, 23, 61, 0.84);
+  }
+  .text-muted-foreground {
+    color: rgba(148, 163, 184, 1);
+  }
+  .border-border {
+    border-color: rgba(148, 163, 184, 0.2);
+  }
+  .bg-muted {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
 }
